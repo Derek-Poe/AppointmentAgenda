@@ -42,7 +42,7 @@ namespace C969_001340166
             try
             {
                 DBConn.startConnection();
-                loginSearch = DBConn.findLoginUser(tbox_login_username.Text.Trim(), tbox_login_password.Text.Trim());
+                loginSearch = DBConn.findLoginUser(tbox_login_username.Text.Trim(), tbox_username_password.Text.Trim());
             }
             catch (InvalidOperationException)
             {
