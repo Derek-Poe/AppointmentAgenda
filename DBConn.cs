@@ -27,13 +27,26 @@ namespace C969_001340166
         }
         public static void startConnection()
         {
-            mconn = new MySqlConnection("[SANITIZED_DATABASE_CONNECTION]");
+            mconn = new MySqlConnection(DatabaseSettings.ReadConnectionString());
             mconn.Open();
             mcmd = new MySqlCommand();
             mcmd.Connection = mconn;
             dataset = new DataSet();
             madapter = new MySqlDataAdapter(mcmd);
         }
+        public static DataRowCollection findLoginUser(string username, string password)
+        {
+            using (var command = new MySqlCommand("SELECT userID FROM user WHERE userName = @username AND password = @password;", mconn))
+            using (var adapter = new MySqlDataAdapter(command))
+            {
+                command.Parameters.AddWithValue("@username", username);
+                command.Parameters.AddWithValue("@password", password);
+                var result = new DataTable();
+                adapter.Fill(result);
+                return result.Rows;
+            }
+        }
+
         public static DataSet getDBDataset(string query)
         {
             mcmd.CommandText = query;

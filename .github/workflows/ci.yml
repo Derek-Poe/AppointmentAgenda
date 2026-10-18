@@ -1,0 +1,14 @@
+name: Build and configuration checks
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: microsoft/setup-msbuild@v2
+      - name: Restore and build the desktop application
+        shell: powershell
+        run: msbuild C969_001340166.sln /restore /p:Configuration=Release /p:RestorePackagesConfig=true /nologo
+      - name: Validate configuration without contacting a database
+        shell: powershell
+        run: ./tests/Test-DatabaseSettings.ps1

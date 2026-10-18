@@ -38,8 +38,22 @@ namespace C969_001340166
 
         private void btn_login_login_Click(object sender, EventArgs e)
         {
-            DBConn.startConnection();
-            DataRowCollection loginSearch = DBConn.getDBData($"SELECT userID FROM user WHERE userName = '{tbox_login_username.Text.Trim()}' AND password = '{tbox_username_password.Text}';");
+            DataRowCollection loginSearch;
+            try
+            {
+                DBConn.startConnection();
+                loginSearch = DBConn.findLoginUser(tbox_login_username.Text.Trim(), tbox_login_password.Text.Trim());
+            }
+            catch (InvalidOperationException)
+            {
+                MessageBox.Show("Database configuration is missing or invalid. Set APPOINTMENTAGENDA_CONNECTION_STRING for your own local database; see README.md.", "Database configuration", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            catch (MySqlException)
+            {
+                MessageBox.Show("Cannot connect to or query the configured database. Check its availability, credentials, schema, and connection permissions. No connection details are logged.", "Database unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if(loginSearch.Count != 0) {
                 File.AppendAllText("log.txt", $"New Login~UserID,{loginSearch[0].ItemArray[0].ToString()};Username,{tbox_login_username.Text.Trim()};Time,{(DateTime.Now).ToUniversalTime().ToString("yyyy-MM-dd HH:mm:ss")}\n");
                 Program.UserID = int.Parse(loginSearch[0].ItemArray[0].ToString());

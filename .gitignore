@@ -1,0 +1,15 @@
+# Generated Visual Studio and ClickOnce outputs
+.vs/
+bin/
+obj/
+publish/
+packages/
+*.user
+*.suo
+*.pfx
+*.p12
+*.snk
+*.log
+log.txt
+.env
+.env.*
