@@ -30,6 +30,8 @@ The sample values are placeholders. Do not commit your actual connection string.
 
 The original schema and account workflow use legacy password handling, and other data-editing queries still use interpolation. This is not a production authentication system or a fully hardened database application. Use controlled local synthetic data when evaluating it. The cleanup does not claim to have modernized every data-access path.
 
-The application has not been connected to the original database during maintenance. Earlier commits still contain material removed from the current tree; source cleanup does not remove historical exposure or replace any credentials that remain in use.
+The application has not been connected to the original database during maintenance.
+
+On 2026-10-18, public branch history was rewritten to exclude identified historical sensitive data. Re-clone if you have an older checkout; merging its history back can reintroduce removed data. GitHub cached views or retained references, if present, need separate cleanup; external copies are not erased.
 
 MIT license for Derek Poe's application source. The MySQL connector is a separately restored third-party dependency governed by its own license.
